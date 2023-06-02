@@ -19,7 +19,7 @@ public class RestResponseEntityExceptionHandler
     public ResponseEntity<ResponseErrorAdviceDTO> handleAccessDeniedException(
             CustomException ex, WebRequest request) {
         ResponseErrorAdviceDTO resp = new ResponseErrorAdviceDTO(ex.getCode(), ex.getDescription());
-        return new ResponseEntity<ResponseErrorAdviceDTO>(
+        return new ResponseEntity<>(
                 resp, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -27,7 +27,7 @@ public class RestResponseEntityExceptionHandler
     public ResponseEntity<ResponseErrorAdviceDTO> handleAccessDeniedException(
             CustomStatusException ex, WebRequest request) {
         ResponseErrorAdviceDTO resp = new ResponseErrorAdviceDTO(ex.getCode(), ex.getDescription());
-        return new ResponseEntity<ResponseErrorAdviceDTO>(
+        return new ResponseEntity<>(
                 resp, new HttpHeaders(), ex.getStatus());
     }
 }

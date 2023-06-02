@@ -2,7 +2,6 @@ package com.lperalta.ecommerce.domain.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.ArrayList;
 import java.util.Date;
