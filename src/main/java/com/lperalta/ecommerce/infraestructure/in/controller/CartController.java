@@ -8,6 +8,7 @@ import com.lperalta.ecommerce.infraestructure.contants.ECommerceControllerConsta
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.CartStatusDTO;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class CartController {
     @DeleteMapping(ECommerceControllerConstants.CART_URL)
     public ResponseEntity<CartResponseDTO> deleteCart(@RequestParam("dni") Long dni) throws NotFoundException {
         return ResponseEntity.ok(cartService.deleteCart(dni));
+    }
+
+    @GetMapping(ECommerceControllerConstants.CART_URL)
+    public ResponseEntity<CartStatusDTO> getCartStatus(@RequestParam("dni") Long dni) throws NotFoundException {
+        return ResponseEntity.ok(cartService.getCartStatus(dni));
     }
 
     @PostMapping(ECommerceControllerConstants.PRODUCT_URL)

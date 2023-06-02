@@ -5,7 +5,6 @@ import com.lperalta.ecommerce.application.exception.CartExistsException;
 import com.lperalta.ecommerce.application.exception.DuplicatedProductException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.application.port.in.CartRequestMapper;
-import com.lperalta.ecommerce.application.port.in.ProductRequestMapper;
 import com.lperalta.ecommerce.application.port.out.CartResponseMapper;
 import com.lperalta.ecommerce.application.service.CartService;
 import com.lperalta.ecommerce.domain.model.Cart;
@@ -14,6 +13,7 @@ import com.lperalta.ecommerce.domain.repository.CartRepository;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.CartStatusDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,16 +25,14 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartRequestMapper cartRequestMapper;
-    private final ProductRequestMapper productRequestMapper;
     private final CartResponseMapper cartResponseMapper;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
                            CartRequestMapper cartRequestMapper,
-                           ProductRequestMapper productRequestMapper, CartResponseMapper cartResponseMapper) {
+                           CartResponseMapper cartResponseMapper) {
         this.cartRepository = cartRepository;
         this.cartRequestMapper = cartRequestMapper;
-        this.productRequestMapper = productRequestMapper;
         this.cartResponseMapper = cartResponseMapper;
     }
 
@@ -64,7 +62,7 @@ public class CartServiceImpl implements CartService {
         if (cart == null ) throw new NotFoundException();
         Product productFound = this.findProductInCart(cart, productDTO);
         if (productFound != null) throw new DuplicatedProductException();
-        cart.addProduct(this.productRequestMapper.toProduct(productDTO));
+        cart.addProduct(this.cartRequestMapper.toProduct(productDTO));
         this.cartRepository.save(cart);
         return this.cartResponseMapper.toCartResponse(cart, CartServiceConstants.CartStatus.PRODUCT_ADDED);
     }
@@ -77,6 +75,13 @@ public class CartServiceImpl implements CartService {
         if (productFound == null) throw new NotFoundException();
         cart.removeProduct(productFound);
         return this.cartResponseMapper.toCartResponse(cart, CartServiceConstants.CartStatus.PRODUCT_DELETED);
+    }
+
+    @Override
+    public CartStatusDTO getCartStatus(Long dni) throws NotFoundException {
+        Cart cart = this.cartRepository.findByDni(dni);
+        if (cart == null) throw new NotFoundException();
+        return this.cartResponseMapper.toCartStatusResponse(cart);
     }
 
     private Product findProductInCart(Cart cart, ProductDTO product) {
