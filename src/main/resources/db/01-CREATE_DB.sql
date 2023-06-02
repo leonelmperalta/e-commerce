@@ -19,10 +19,9 @@ GRANT ALL ON SCHEMA public TO pg_database_owner;
 
 create table cart
 (
-    id            bigserial
-        constraint "CART_pkey"
-            primary key,
-    dni           bigint                not null,
+    dni           bigint                not null
+        primary key
+        unique,
     is_special    boolean               not null,
     creation_date date                  not null,
     closed        boolean default false not null,
@@ -32,22 +31,18 @@ create table cart
 alter table cart
     owner to postgres;
 
-
 create table product
 (
     id         bigserial
         constraint "PRODUCT_pkey"
             primary key,
-    cart_id    bigint  not null
-        constraint "PRODUCT_CART_FK"
-            references cart (ID),
     name       text    not null,
     unit_price real    not null,
-    quantity   integer not null
+    quantity   integer not null,
+    cart_dni   bigint  not null
+        constraint product_cart_fk
+            references cart
 );
 
 alter table product
     owner to postgres;
-
-create index "fki_PRODUCT_CART_FK"
-    on product (cart_id);

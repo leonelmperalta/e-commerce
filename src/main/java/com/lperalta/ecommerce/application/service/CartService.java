@@ -8,5 +8,5 @@ import com.lperalta.ecommerce.infraestructure.out.dto.DeleteCartResponseDTO;
 public interface CartService {
     CreateCartResponseDTO createCart(CreateCartDTO cart);
 
-    DeleteCartResponseDTO deleteCart(Long id) throws NotFoundException;
+    DeleteCartResponseDTO deleteCart(Long dni) throws NotFoundException;
 }

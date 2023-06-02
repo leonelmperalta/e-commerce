@@ -13,7 +13,7 @@ public class Product {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_dni")
     private Cart cart;
 
     private String name;

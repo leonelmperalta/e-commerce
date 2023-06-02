@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(ECommerceControllerConstants.BASE_URL)
-public class ECommerceController {
+public class CartController {
 
     private final CartService cartService;
 
     @Autowired
-    public ECommerceController(CartService cartService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
     }
 
@@ -27,7 +27,12 @@ public class ECommerceController {
     }
 
     @DeleteMapping(ECommerceControllerConstants.CART_URL)
-    public ResponseEntity<DeleteCartResponseDTO> deleteCart(@RequestParam("id") Long id) throws NotFoundException {
-        return ResponseEntity.ok(cartService.deleteCart(id));
+    public ResponseEntity<DeleteCartResponseDTO> deleteCart(@RequestParam("dni") Long dni) throws NotFoundException {
+        return ResponseEntity.ok(cartService.deleteCart(dni));
     }
+
+//    @PostMapping(ECommerceControllerConstants.PRODUCT_URL)
+//    public ResponseEntity<?> addProduct(@RequestBody ProductDTO product) {
+//
+//    }
 }

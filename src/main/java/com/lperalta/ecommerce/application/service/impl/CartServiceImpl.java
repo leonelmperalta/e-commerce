@@ -8,6 +8,7 @@ import com.lperalta.ecommerce.domain.repository.CartRepository;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CreateCartResponseDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.DeleteCartResponseDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public CreateCartResponseDTO createCart(CreateCartDTO cartDTO) {
         Cart cart = this.cartRequestMapper.toCart(cartDTO);
         Cart savedCart = this.cartRepository.save(cart);
@@ -32,11 +34,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public DeleteCartResponseDTO deleteCart(Long id) throws NotFoundException {
-        if (!this.cartRepository.existsById(id)) {
+    @Transactional
+    public DeleteCartResponseDTO deleteCart(Long dni) throws NotFoundException {
+        if (!this.cartRepository.existsByDni(dni)) {
             throw new NotFoundException();
         }
-        this.cartRepository.deleteById(id);
-        return this.cartRequestMapper.toDeleteCartResponseDTO(id);
+        this.cartRepository.deleteByDni(dni);
+        return this.cartRequestMapper.toDeleteCartResponseDTO(dni);
     }
 }

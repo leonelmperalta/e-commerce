@@ -11,11 +11,7 @@ import java.util.List;
 @Entity
 public class Cart {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cart_id_seq")
-    private Long id;
-
     private Long dni;
 
     @Column(name = "is_special")
@@ -33,14 +29,6 @@ public class Cart {
 
     private Boolean closed;
     private Date closeDate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getDni() {
         return dni;

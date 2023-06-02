@@ -8,4 +8,5 @@ public class ECommerceControllerConstants {
 
     public static final String BASE_URL = "/ecommerce";
     public static final String CART_URL = "/cart";
+    public static final String PRODUCT_URL = "/product";
 }
