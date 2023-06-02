@@ -157,7 +157,7 @@ public class CartServiceImpl implements CartService {
         return cart.getProductList().stream().mapToDouble(p -> p.getUnitPrice() * p.getQuantity()).sum();
     }
 
-    private List<PurchaseDTO> getPurchasesOfActualMonth(Cart cart) throws ParseException, NotFoundException {
+    private List<PurchaseDTO> getPurchasesOfActualMonth(Cart cart) throws ParseException {
         Date dateOfActualMonthFirstDay = this.getDateOfActualMonthFirstDay();
         Date dateOfActualMonthLastDay = this.getDateOfActualMonthLastDay();
         QueryPurchaseDTO queryPurchase = new QueryPurchaseDTO(
