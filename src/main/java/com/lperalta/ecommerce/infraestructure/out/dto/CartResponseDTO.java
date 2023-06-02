@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.lperalta.ecommerce.application.constants.CartServiceConstants;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class DeleteCartResponseDTO {
+public class CartResponseDTO {
+
     private Long dni;
     private CartServiceConstants.CartStatus status;
 

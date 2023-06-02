@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "product_id_seq")
     private Long id;
 
     @JsonIgnore

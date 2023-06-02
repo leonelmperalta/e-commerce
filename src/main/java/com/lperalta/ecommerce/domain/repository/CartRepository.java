@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
-
-    boolean existsByDni(Long dni);
-    void deleteByDni(Long dni);
+    Cart findByDni(Long dni);
 }

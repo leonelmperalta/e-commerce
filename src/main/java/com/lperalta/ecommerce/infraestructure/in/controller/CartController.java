@@ -1,11 +1,12 @@
 package com.lperalta.ecommerce.infraestructure.in.controller;
 
+import com.lperalta.ecommerce.application.exception.CartExistsException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.application.service.CartService;
 import com.lperalta.ecommerce.infraestructure.contants.ECommerceControllerConstants;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
-import com.lperalta.ecommerce.infraestructure.out.dto.CreateCartResponseDTO;
-import com.lperalta.ecommerce.infraestructure.out.dto.DeleteCartResponseDTO;
+import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +23,17 @@ public class CartController {
     }
 
     @PostMapping(ECommerceControllerConstants.CART_URL)
-    public ResponseEntity<CreateCartResponseDTO> createCart(@RequestBody CreateCartDTO cart) {
+    public ResponseEntity<CartResponseDTO> createCart(@RequestBody CreateCartDTO cart) throws CartExistsException {
         return ResponseEntity.ok(cartService.createCart(cart));
     }
 
     @DeleteMapping(ECommerceControllerConstants.CART_URL)
-    public ResponseEntity<DeleteCartResponseDTO> deleteCart(@RequestParam("dni") Long dni) throws NotFoundException {
+    public ResponseEntity<CartResponseDTO> deleteCart(@RequestParam("dni") Long dni) throws NotFoundException {
         return ResponseEntity.ok(cartService.deleteCart(dni));
     }
 
-//    @PostMapping(ECommerceControllerConstants.PRODUCT_URL)
-//    public ResponseEntity<?> addProduct(@RequestBody ProductDTO product) {
-//
-//    }
+    @PostMapping(ECommerceControllerConstants.PRODUCT_URL)
+    public ResponseEntity<CartResponseDTO> addProduct(@RequestBody ProductDTO product) throws NotFoundException {
+        return ResponseEntity.ok(cartService.addProduct(product));
+    }
 }
