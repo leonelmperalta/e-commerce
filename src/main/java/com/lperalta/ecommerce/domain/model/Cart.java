@@ -11,7 +11,11 @@ import java.util.List;
 @Entity
 public class Cart {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
     private Long dni;
 
     private Boolean isSpecial;
@@ -25,6 +29,17 @@ public class Cart {
             orphanRemoval = true
     )
     private List<Product> productList = new ArrayList<>();
+
+    private Boolean closed;
+    private Date closeDate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getDni() {
         return dni;
@@ -66,5 +81,21 @@ public class Cart {
     public void removeProduct(Product product) {
         productList.remove(product);
         product.setCart(null);
+    }
+
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
+    }
+
+    public Date getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
     }
 }

@@ -1,10 +1,9 @@
 package com.lperalta.ecommerce.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
-@Table(name = "PRODUCT")
+@Table(name = "product")
 @Entity
 public class Product {
 
@@ -12,14 +11,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CART_DNI")
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     private String name;
     private Double unitPrice;
     private Integer quantity;
-    private Date buyDate;
 
     public Long getId() {
         return id;
@@ -61,11 +60,4 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Date getBuyDate() {
-        return buyDate;
-    }
-
-    public void setBuyDate(Date buyDate) {
-        this.buyDate = buyDate;
-    }
 }

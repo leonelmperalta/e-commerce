@@ -17,38 +17,37 @@ GRANT USAGE ON SCHEMA public TO PUBLIC;
 
 GRANT ALL ON SCHEMA public TO pg_database_owner;
 
-CREATE TABLE IF NOT EXISTS public."CART"
+create table cart
 (
-    "DNI" bigint NOT NULL,
-    "IS_SPECIAL" boolean NOT NULL,
-    "CREATION_DATE" date NOT NULL,
-    CONSTRAINT "CART_pkey" PRIMARY KEY ("DNI")
-)
+    id            bigint                not null
+        constraint "CART_pkey"
+            primary key,
+    dni           bigint                not null,
+    is_special    boolean               not null,
+    creation_date date                  not null,
+    closed        boolean default false not null,
+    close_date    date
+);
 
-    TABLESPACE pg_default;
+alter table cart
+    owner to postgres;
 
-ALTER TABLE IF EXISTS public."CART"
-    OWNER to postgres;
 
-CREATE TABLE IF NOT EXISTS public."PRODUCT"
+create table product
 (
-    "ID" bigint NOT NULL,
-    "CART_DNI" bigint NOT NULL,
-    "NAME" "char"[] NOT NULL,
-    "UNIT_PRICE" real NOT NULL,
-    "QUANTITY" integer NOT NULL,
-    "BUY_DATE" date NOT NULL,
-    CONSTRAINT "PRODUCT_pkey" PRIMARY KEY ("ID")
-)
+    id         bigint  not null
+        constraint "PRODUCT_pkey"
+            primary key,
+    cart_id    bigint  not null
+        constraint "PRODUCT_CART_FK"
+            references cart (ID),
+    name       text    not null,
+    unit_price real    not null,
+    quantity   integer not null
+);
 
-    TABLESPACE pg_default;
+alter table product
+    owner to postgres;
 
-ALTER TABLE IF EXISTS public."PRODUCT"
-    OWNER to postgres;
-
-ALTER TABLE IF EXISTS public."PRODUCT"
-    ADD CONSTRAINT "PRODUCT_CART_FK" FOREIGN KEY ("CART_DNI")
-        REFERENCES public."CART" ("DNI") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID;
+create index "fki_PRODUCT_CART_FK"
+    on product (cart_id);
