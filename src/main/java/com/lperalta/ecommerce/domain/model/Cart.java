@@ -1,6 +1,7 @@
 package com.lperalta.ecommerce.domain.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.ArrayList;
@@ -13,14 +14,15 @@ public class Cart {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cart_id_seq")
     private Long id;
 
     private Long dni;
 
+    @Column(name = "is_special")
     private Boolean isSpecial;
 
-    @CreatedDate
+    @CreationTimestamp
     private Date creationDate;
 
     @OneToMany(

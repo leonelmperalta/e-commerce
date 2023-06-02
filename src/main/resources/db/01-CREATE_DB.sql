@@ -19,7 +19,7 @@ GRANT ALL ON SCHEMA public TO pg_database_owner;
 
 create table cart
 (
-    id            bigint                not null
+    id            bigserial
         constraint "CART_pkey"
             primary key,
     dni           bigint                not null,
@@ -35,7 +35,7 @@ alter table cart
 
 create table product
 (
-    id         bigint  not null
+    id         bigserial
         constraint "PRODUCT_pkey"
             primary key,
     cart_id    bigint  not null
