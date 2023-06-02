@@ -1,12 +1,14 @@
 package com.lperalta.ecommerce.infraestructure.in.controller;
 
 import com.lperalta.ecommerce.application.exception.CartExistsException;
+import com.lperalta.ecommerce.application.exception.DuplicatedProductException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.application.service.CartService;
 import com.lperalta.ecommerce.infraestructure.contants.ECommerceControllerConstants;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,12 @@ public class CartController {
     }
 
     @PostMapping(ECommerceControllerConstants.PRODUCT_URL)
-    public ResponseEntity<CartResponseDTO> addProduct(@RequestBody ProductDTO product) throws NotFoundException {
+    public ResponseEntity<CartResponseDTO> addProduct(@RequestBody ProductDTO product) throws NotFoundException, DuplicatedProductException {
         return ResponseEntity.ok(cartService.addProduct(product));
+    }
+
+    @DeleteMapping(ECommerceControllerConstants.PRODUCT_URL)
+    public ResponseEntity<CartResponseDTO> deleteProduct(@RequestBody ProductDTO productDTO) throws NotFoundException {
+        return ResponseEntity.ok(cartService.deleteProduct(productDTO));
     }
 }

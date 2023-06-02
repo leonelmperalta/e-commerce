@@ -9,6 +9,7 @@ public class CartServiceConstants {
     public enum CartStatus {
         CREATED,
         DELETED,
-        PRODUCT_ADDED
+        PRODUCT_ADDED,
+        PRODUCT_DELETED
     }
 }

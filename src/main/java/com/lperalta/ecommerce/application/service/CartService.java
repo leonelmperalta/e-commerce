@@ -1,6 +1,7 @@
 package com.lperalta.ecommerce.application.service;
 
 import com.lperalta.ecommerce.application.exception.CartExistsException;
+import com.lperalta.ecommerce.application.exception.DuplicatedProductException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
@@ -11,5 +12,7 @@ public interface CartService {
 
     CartResponseDTO deleteCart(Long dni) throws NotFoundException;
 
-    CartResponseDTO addProduct(ProductDTO product) throws NotFoundException;
+    CartResponseDTO addProduct(ProductDTO product) throws NotFoundException, DuplicatedProductException;
+
+    CartResponseDTO deleteProduct(ProductDTO productDTO) throws NotFoundException;
 }

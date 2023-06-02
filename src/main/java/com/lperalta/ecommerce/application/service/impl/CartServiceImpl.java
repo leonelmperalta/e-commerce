@@ -2,6 +2,7 @@ package com.lperalta.ecommerce.application.service.impl;
 
 import com.lperalta.ecommerce.application.constants.CartServiceConstants;
 import com.lperalta.ecommerce.application.exception.CartExistsException;
+import com.lperalta.ecommerce.application.exception.DuplicatedProductException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.application.port.in.CartRequestMapper;
 import com.lperalta.ecommerce.application.port.in.ProductRequestMapper;
@@ -16,6 +17,8 @@ import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -56,12 +59,33 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartResponseDTO addProduct(ProductDTO productDTO) throws NotFoundException {
+    public CartResponseDTO addProduct(ProductDTO productDTO) throws NotFoundException, DuplicatedProductException {
         Cart cart = this.cartRepository.findByDni(productDTO.getCartDni());
         if (cart == null ) throw new NotFoundException();
-        Product product = this.productRequestMapper.toProduct(productDTO);
-        cart.addProduct(product);
+        Product productFound = this.findProductInCart(cart, productDTO);
+        if (productFound != null) throw new DuplicatedProductException();
+        cart.addProduct(this.productRequestMapper.toProduct(productDTO));
         this.cartRepository.save(cart);
         return this.cartResponseMapper.toCartResponse(cart, CartServiceConstants.CartStatus.PRODUCT_ADDED);
+    }
+
+    @Override
+    public CartResponseDTO deleteProduct(ProductDTO productDTO) throws NotFoundException {
+        Cart cart = this.cartRepository.findByDni(productDTO.getCartDni());
+        if (cart == null ) throw new NotFoundException();
+        Product productFound = this.findProductInCart(cart, productDTO);
+        if (productFound == null) throw new NotFoundException();
+        cart.removeProduct(productFound);
+        return this.cartResponseMapper.toCartResponse(cart, CartServiceConstants.CartStatus.PRODUCT_DELETED);
+    }
+
+    private Product findProductInCart(Cart cart, ProductDTO product) {
+        Optional<Product> productFound = cart.getProductList().stream().filter(
+                p -> p.getName().equals(product.getName()) &&
+                        p.getUnitPrice().equals(product.getUnitPrice()) &&
+                        p.getQuantity().equals(product.getQuantity())
+        ).findFirst();
+
+        return productFound.orElse(null);
     }
 }
