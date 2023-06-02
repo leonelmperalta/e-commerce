@@ -8,10 +8,10 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PurchaseDTO {
     private Long dni;
-    private List<ProductResponseDTO> products;
     private Double amount;
     private Double discount;
     private Double finalAmount;
+    private List<ProductResponseDTO> products;
 
     public Long getDni() {
         return dni;
