@@ -7,12 +7,17 @@ import com.lperalta.ecommerce.application.service.CartService;
 import com.lperalta.ecommerce.infraestructure.contants.ECommerceControllerConstants;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
+import com.lperalta.ecommerce.infraestructure.in.dto.QueryPurchaseDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartStatusDTO;
-import org.apache.coyote.Response;
+import com.lperalta.ecommerce.infraestructure.out.dto.PurchaseDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.PurchasesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping(ECommerceControllerConstants.BASE_URL)
@@ -31,13 +36,13 @@ public class CartController {
     }
 
     @DeleteMapping(ECommerceControllerConstants.CART_URL)
-    public ResponseEntity<CartResponseDTO> deleteCart(@RequestParam("dni") Long dni) throws NotFoundException {
-        return ResponseEntity.ok(cartService.deleteCart(dni));
+    public ResponseEntity<CartResponseDTO> deleteCart(@RequestParam("id") Long id) throws NotFoundException {
+        return ResponseEntity.ok(cartService.deleteCart(id));
     }
 
     @GetMapping(ECommerceControllerConstants.CART_URL)
-    public ResponseEntity<CartStatusDTO> getCartStatus(@RequestParam("dni") Long dni) throws NotFoundException {
-        return ResponseEntity.ok(cartService.getCartStatus(dni));
+    public ResponseEntity<CartStatusDTO> getCartStatus(@RequestParam("id") Long id) throws NotFoundException {
+        return ResponseEntity.ok(cartService.getCartStatus(id));
     }
 
     @PostMapping(ECommerceControllerConstants.PRODUCT_URL)
@@ -48,5 +53,15 @@ public class CartController {
     @DeleteMapping(ECommerceControllerConstants.PRODUCT_URL)
     public ResponseEntity<CartResponseDTO> deleteProduct(@RequestBody ProductDTO productDTO) throws NotFoundException {
         return ResponseEntity.ok(cartService.deleteProduct(productDTO));
+    }
+
+    @PostMapping(ECommerceControllerConstants.CART_CLOSE_URL)
+    public ResponseEntity<PurchaseDTO> closeCart(@RequestParam("id") Long id) throws NotFoundException, ParseException {
+        return ResponseEntity.ok(cartService.closeCart(id));
+    }
+
+    @GetMapping(ECommerceControllerConstants.PURCHASES_URL)
+    public ResponseEntity<PurchasesDTO> getCartStatus(@RequestBody QueryPurchaseDTO queryPurchase) throws NotFoundException, ParseException {
+        return ResponseEntity.ok(cartService.getAllPurchases(queryPurchase));
     }
 }

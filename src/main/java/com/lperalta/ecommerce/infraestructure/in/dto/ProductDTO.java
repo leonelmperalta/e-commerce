@@ -8,7 +8,7 @@ public class ProductDTO {
     private String name;
     private Double unitPrice;
     private Integer quantity;
-    private Long cartDni;
+    private Long cartId;
 
     public String getName() {
         return name;
@@ -34,11 +34,11 @@ public class ProductDTO {
         this.quantity = quantity;
     }
 
-    public Long getCartDni() {
-        return cartDni;
+    public Long getCartId() {
+        return cartId;
     }
 
-    public void setCartDni(Long cartDni) {
-        this.cartDni = cartDni;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 }

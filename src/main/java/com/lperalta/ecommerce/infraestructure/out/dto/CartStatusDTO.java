@@ -2,22 +2,21 @@ package com.lperalta.ecommerce.infraestructure.out.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
 
 import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CartStatusDTO {
 
-    private Long dni;
+    private Long id;
     private List<ProductResponseDTO> products;
 
-    public Long getDni() {
-        return dni;
+    public Long getId() {
+        return id;
     }
 
-    public void setDni(Long dni) {
-        this.dni = dni;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<ProductResponseDTO> getProducts() {

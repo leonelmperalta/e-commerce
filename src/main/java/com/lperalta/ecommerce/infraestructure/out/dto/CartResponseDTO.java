@@ -7,15 +7,15 @@ import com.lperalta.ecommerce.application.constants.CartServiceConstants;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CartResponseDTO {
 
-    private Long dni;
+    private Long id;
     private CartServiceConstants.CartStatus status;
 
-    public Long getDni() {
-        return dni;
+    public Long getId() {
+        return id;
     }
 
-    public void setDni(Long dni) {
-        this.dni = dni;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public CartServiceConstants.CartStatus getStatus() {

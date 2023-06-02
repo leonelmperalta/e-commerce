@@ -11,7 +11,11 @@ import java.util.List;
 @Entity
 public class Cart {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cart_id_seq")
+    private Long id;
+
     private Long dni;
 
     @Column(name = "is_special")
@@ -29,6 +33,18 @@ public class Cart {
 
     private Boolean closed;
     private Date closeDate;
+
+    private Double amount;
+    private Double discount;
+    private Double finalAmount;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getDni() {
         return dni;
@@ -86,5 +102,29 @@ public class Cart {
 
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Double getFinalAmount() {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(Double finalAmount) {
+        this.finalAmount = finalAmount;
     }
 }

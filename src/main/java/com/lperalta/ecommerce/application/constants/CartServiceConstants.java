@@ -12,4 +12,7 @@ public class CartServiceConstants {
         PRODUCT_ADDED,
         PRODUCT_DELETED
     }
+
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+
 }

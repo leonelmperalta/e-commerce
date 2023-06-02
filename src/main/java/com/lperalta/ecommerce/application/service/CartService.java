@@ -5,17 +5,26 @@ import com.lperalta.ecommerce.application.exception.DuplicatedProductException;
 import com.lperalta.ecommerce.application.exception.NotFoundException;
 import com.lperalta.ecommerce.infraestructure.in.dto.CreateCartDTO;
 import com.lperalta.ecommerce.infraestructure.in.dto.ProductDTO;
+import com.lperalta.ecommerce.infraestructure.in.dto.QueryPurchaseDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartResponseDTO;
 import com.lperalta.ecommerce.infraestructure.out.dto.CartStatusDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.PurchaseDTO;
+import com.lperalta.ecommerce.infraestructure.out.dto.PurchasesDTO;
+
+import java.text.ParseException;
 
 public interface CartService {
     CartResponseDTO createCart(CreateCartDTO cart) throws CartExistsException;
 
-    CartResponseDTO deleteCart(Long dni) throws NotFoundException;
+    CartResponseDTO deleteCart(Long id) throws NotFoundException;
 
     CartResponseDTO addProduct(ProductDTO product) throws NotFoundException, DuplicatedProductException;
 
     CartResponseDTO deleteProduct(ProductDTO productDTO) throws NotFoundException;
 
-    CartStatusDTO getCartStatus(Long dni) throws NotFoundException;
+    CartStatusDTO getCartStatus(Long id) throws NotFoundException;
+
+    PurchaseDTO closeCart(Long id) throws NotFoundException, ParseException;
+
+    PurchasesDTO getAllPurchases(QueryPurchaseDTO queryPurchase) throws ParseException, NotFoundException;
 }
